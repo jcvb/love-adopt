@@ -1,12 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {NextUIProvider} from "@nextui-org/react";
+import {Button} from "@nextui-org/button";
+
 
 function App() {
   return (
-    <div className="App">
-      Hello World
-    </div>
+    <NextUIProvider>
+      <h1 className='p-20'>Hello World</h1>
+      <Button>Press me</Button>
+    </NextUIProvider>
   );
 }
 
