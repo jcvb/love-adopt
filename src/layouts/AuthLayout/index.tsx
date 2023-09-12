@@ -2,13 +2,7 @@ import AuthService from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useEffect } from "react";
-import {
-  Card,
-  Spacer,
-  Button,
-  Input,
-  NextUIProvider,
-} from "@nextui-org/react";
+import { Card, Spacer, Button, Input, NextUIProvider } from "@nextui-org/react";
 
 const AuthLayout = () => {
   const { setAuthenticated } = useContext(AuthContext);
