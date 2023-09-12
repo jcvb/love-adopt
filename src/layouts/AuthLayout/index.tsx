@@ -1,14 +1,17 @@
 import AuthService from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useEffect } from "react";
 import {
-  Card,
   Spacer,
   Button,
   Input,
   NextUIProvider,
+  Image,
 } from "@nextui-org/react";
+
+import LogoLoveAdopt from "../../assets/images/logo-love-adopt.svg";
+import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 
 const AuthLayout = () => {
   const { setAuthenticated } = useContext(AuthContext);
@@ -30,26 +33,81 @@ const AuthLayout = () => {
   };
 
   return (
-    <NextUIProvider>
-      <div>
-        <Card>
-          <span>Love Adopt</span>
-          <div className="flex w-full flex-wrap md:flex-nowrap">
+    <NextUIProvider className="h-screen overflow-auto pb-10 md:pb-0">
+      <div className="flex justify-center items-center p-5">
+        <div className="bg-white w-full md:w-110 p-10 mb-5 md:mb-0 drop-shadow rounded-xl">
+          <div className="flex justify-center">
+            <Image
+              width={300}
+              alt="Logo Love Adopt"
+              src={LogoLoveAdopt}
+            />
+          </div>
+
+          <Spacer y={1} />
+          <h1 className="w-full text-center font-bold text-xl">Log in</h1>
+          <Spacer y={6} />
+          <div className="flex w-full">
             <Input type="text" label="Name" />
           </div>
-          <Spacer y={1} />
-          <div className="flex w-full flex-wrap md:flex-nowrap">
+          <Spacer y={5} />
+          <div className="flex w-full">
             <Input type="email" label="Email" />
           </div>
-          <Spacer y={1} />
+          <Spacer y={5} />
           <Button
+            className="bg-la-primary w-full uppercase text-white hover:bg-la-primary-dark"
             onClick={() => {
               handleLogin();
             }}
           >
-            Sign in
+            Log in
           </Button>
-        </Card>
+          <Spacer y={5} />
+          <div className="text-center">
+            <Link
+              className="underline text-la-primary hover:text-la-primary-dark"
+              to="/forgot"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+          <Spacer y={5} />
+          <div className="text-center">
+            <span className="text-la-gray-dark hr-line-title">
+              or login in with
+            </span>
+          </div>
+          <Spacer y={5} />
+          <div className="flex justify-around">
+            <Button
+              className=" w-40"
+              color="primary"
+              variant="bordered"
+              startContent={<FaFacebookSquare />}
+            >
+              Facebook
+            </Button>
+            <Button
+              className=" w-40"
+              color="primary"
+              variant="bordered"
+              startContent={<FaGoogle />}
+            >
+              Google
+            </Button>
+          </div>
+          <Spacer y={5} />
+          <div className="w-full text-center">
+            <span>Need an account?</span>
+            <Link
+              className=" px-2 underline text-la-primary hover:text-la-primary-dark"
+              to="/forgot"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </div>
       </div>
     </NextUIProvider>
   );
