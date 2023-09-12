@@ -79,7 +79,7 @@ const AuthLayout = () => {
             </span>
           </div>
           <Spacer y={5} />
-          <div className="flex flex-col justify-around">
+          <div className="flex flex-col md:flex-row justify-around">
             <Button
               className="w-full md:w-40 mb-3 md:mb-0"
               color="primary"
@@ -102,7 +102,7 @@ const AuthLayout = () => {
             <span>Need an account?</span>
             <Link
               className=" px-2 underline text-la-primary hover:text-la-primary-dark"
-              to="/forgot"
+              to="/register"
             >
               Sign Up
             </Link>
