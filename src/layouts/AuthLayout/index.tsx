@@ -33,9 +33,9 @@ const AuthLayout = () => {
   };
 
   return (
-    <NextUIProvider className="h-screen overflow-auto pb-10 md:pb-0">
+    <NextUIProvider className="md:h-screen overflow-auto md:pb-0">
       <div className="flex justify-center items-center p-5">
-        <div className="bg-white w-full md:w-110 p-10 mb-5 md:mb-0 drop-shadow rounded-xl">
+        <div className="bg-white w-full md:w-110 p-5 md:p-10 drop-shadow rounded-xl">
           <div className="flex justify-center">
             <Image
               width={300}
@@ -74,14 +74,14 @@ const AuthLayout = () => {
           </div>
           <Spacer y={5} />
           <div className="text-center">
-            <span className="text-la-gray-dark hr-line-title">
+            <span className="text-la-gray-dark md:hr-line-title">
               or login in with
             </span>
           </div>
           <Spacer y={5} />
-          <div className="flex justify-around">
+          <div className="flex flex-col justify-around">
             <Button
-              className=" w-40"
+              className="w-full md:w-40 mb-3 md:mb-0"
               color="primary"
               variant="bordered"
               startContent={<FaFacebookSquare />}
@@ -89,7 +89,7 @@ const AuthLayout = () => {
               Facebook
             </Button>
             <Button
-              className=" w-40"
+              className="w-full md:w-40"
               color="primary"
               variant="bordered"
               startContent={<FaGoogle />}
