@@ -90,7 +90,6 @@ const dogsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchDataDogs.fulfilled, (state, action) => {
-        console.log("Se realiza");
         state.dataDogs = action.payload.data;
         state.total = action.payload.total;
         state.status = "succeeded";

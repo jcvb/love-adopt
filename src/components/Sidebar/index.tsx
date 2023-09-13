@@ -8,11 +8,13 @@ import {
   setFilterBy,
   setAgeMin,
   setAgeMax,
-  fetchDataDogs
+  fetchDataDogs,
 } from "../../store/dogsSlice";
 import { Breed } from "../../types/Dogs";
-import { Select, SelectItem, Spacer } from "@nextui-org/react";
+import { Input, Select, SelectItem, Spacer } from "@nextui-org/react";
 import { AppDispatch } from "../../store/store";
+
+import AbstractService from "../../services/abstract.service";
 
 const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,10 +50,9 @@ const Sidebar = () => {
   const handleRange = (e: any) => {
     dispatch(setAgeMin(e[0]));
     dispatch(setAgeMax(e[1]));
-  }
+  };
 
   useEffect(() => {
-    console.log(ageMax);
     dispatch(
       fetchDataDogs({
         selectedBreeds: selectedBreeds,
@@ -73,6 +74,12 @@ const Sidebar = () => {
     page,
     selectedBreeds,
   ]);
+
+  useEffect(() => {
+    AbstractService.getZipCode().then((response) => {
+      console.log("response", response);
+    });
+  }, []);
 
   return (
     <>
@@ -109,15 +116,22 @@ const Sidebar = () => {
             Age
           </SelectItem>
         </Select>
-        
-          <Spacer y={5} />
-          <div className=" text-sm pl-1">
-            From {ageMin} to {ageMax} age
-          </div>
-          <Spacer y={3} />
-          <RangeSlider min={0} max={14} value={[ageMin, ageMax]} onInput={handleRange} />
-        
+
+        <Spacer y={5} />
+        <div className=" text-sm pl-1">
+          From {ageMin} to {ageMax} age
+        </div>
+        <Spacer y={3} />
+        <RangeSlider
+          min={0}
+          max={14}
+          value={[ageMin, ageMax]}
+          onInput={handleRange}
+        />
+
         <Spacer y={8} />
+        <Input type="text" label="Zip Code" placeholder="Enter your zip code" />
+        <Spacer y={5} />
         <Select
           label="Select the breeds"
           onChange={handleBreedChange}
