@@ -16,7 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    AuthService.login("John", "email@example.com")
+    AuthService.logout()
       .then((response) => {
         if (response === 200) {
           navigate("/login");

@@ -1,23 +1,32 @@
-import AuthService from "../../services/auth.service";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/authSlice";
 
 import { Spacer, Button, Input } from "@nextui-org/react";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../store/store";
+import { useEffect } from "react";
 
 const AuthForm = () => {
-  const { setAuthenticated } = useContext(AuthContext);
+  const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
+
   const navigate = useNavigate();
+
   const handleLogin = () => {
-    AuthService.login("John", "email@example.com")
-      .then((response) => {
-        setAuthenticated(true);
-        navigate("/dashboard");
+    dispatch(login())
+      .then(() => {
+        if (isAuthenticated) {
+          console.log(isAuthenticated);
+          navigate("/dashboard");
+        }
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error("Error:", error);
       });
   };
+
   return (
     <>
       <Spacer y={5} />

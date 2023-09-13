@@ -5,8 +5,8 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./routes/Routes";
-import { AuthProvider } from "./contexts/AuthContext";
-import { DogsProvider } from "./contexts/DogsContext";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,13 +14,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <AuthProvider>
+    <Provider store={store}>
       <BrowserRouter>
-        <DogsProvider>
-          <Routes />
-        </DogsProvider>
+        <Routes />
       </BrowserRouter>
-    </AuthProvider>
+    </Provider>
   </React.StrictMode>
 );
 

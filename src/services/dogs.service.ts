@@ -20,7 +20,7 @@ const breeds = () => {
     });
 };
 
-const getDogsIds = async (query: Array<string>) => {
+const getDogsData = async (query: Array<string>) => {
   try {
     const dogsIds = await axios.get(API_URL + "/dogs/search", {
       withCredentials: true,
@@ -39,7 +39,7 @@ const getDogsIds = async (query: Array<string>) => {
 
     return dataDogs.data;
   } catch (error) {
-    console.error("Hubo un error al obtener los datos:", error);
+    console.error("Error: ", error);
   }
   return axios
     .get(API_URL + "/dogs/search", {
@@ -58,7 +58,7 @@ const getDogsIds = async (query: Array<string>) => {
 
 const DogsService = {
   breeds,
-  getDogsIds,
+  getDogsData,
 };
 
 export default DogsService;
