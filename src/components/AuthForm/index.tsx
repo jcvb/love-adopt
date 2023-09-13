@@ -4,28 +4,27 @@ import { login } from "../../store/authSlice";
 import { Spacer, Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
-import { useEffect } from "react";
+import React from "react";
 
 const AuthForm = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   const isAuthenticated = useSelector(
     (state: any) => state.auth.isAuthenticated
   );
 
-  const navigate = useNavigate();
-
   const handleLogin = () => {
-    dispatch(login())
-      .then(() => {
-        if (isAuthenticated) {
-          console.log(isAuthenticated);
-          navigate("/dashboard");
-        }
-      })
-      .catch((error: any) => {
-        console.error("Error:", error);
-      });
+    dispatch(login()).catch((error: any) => {
+      console.error("Error:", error);
+    });
   };
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <>

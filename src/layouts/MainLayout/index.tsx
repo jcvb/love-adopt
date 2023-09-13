@@ -5,7 +5,7 @@ type Props = {
   children: string | React.JSX.Element | React.JSX.Element[] 
 }
 
-const DashboardLayout = ({children} : Props) => {
+const MainLayout = ({children} : Props) => {
   return (
     <NextUIProvider className="md:h-screen overflow-auto md:pb-0">
       {children}
@@ -13,4 +13,4 @@ const DashboardLayout = ({children} : Props) => {
   );
 };
 
-export default DashboardLayout;
+export default MainLayout;

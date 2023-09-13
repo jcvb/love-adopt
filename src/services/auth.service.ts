@@ -24,10 +24,15 @@ const login = (name: string, email: string) => {
 
 const logout = () => {
   return axios
-    .post(API_URL + "/auth/logout", {
-      withCredentials: true,
-    })
+    .post(
+      API_URL + "/auth/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    )
     .then((response) => {
+      console.log(response);
       if (response.data === "OK") return 200;
     })
     .catch((error) => {

@@ -8,9 +8,9 @@ export const fetchBreeds = createAsyncThunk("dogs/fetchBreeds", async () => {
 
 export const fetchDataDogs = createAsyncThunk(
   "dogs/fetchDataDogs",
-  async (selectedBreeds:any) => {
+  async (selectedBreeds: any) => {
     const response = await DogsService.getDogsData(
-      selectedBreeds.map((breed:any) => breed.name)
+      selectedBreeds.map((breed: any) => breed.name)
     );
     return response;
   }
@@ -18,8 +18,11 @@ export const fetchDataDogs = createAsyncThunk(
 
 const dogsSlice = createSlice({
   name: "dogs",
-  initialState: { breeds: [], selectedBreeds: [], status: "idle", error: null },
+  initialState: { breeds: [], selectedBreeds: [], dataDogs: [], status: "idle", error: null },
   reducers: {
+    setBreeds: (state, action) => {
+      state.breeds = action.payload;
+    },
     setSelectedBreeds: (state, action) => {
       state.selectedBreeds = action.payload;
     },
@@ -31,7 +34,7 @@ const dogsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchDataDogs.fulfilled, (state, action) => {
-        state.selectedBreeds = action.payload; 
+        state.dataDogs = action.payload;
         state.status = "succeeded";
       })
       .addCase(fetchBreeds.rejected, (state, action) => {
@@ -46,4 +49,4 @@ const dogsSlice = createSlice({
 });
 
 export default dogsSlice.reducer;
-export const { setSelectedBreeds } = dogsSlice.actions;
+export const { setSelectedBreeds, setBreeds } = dogsSlice.actions;

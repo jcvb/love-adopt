@@ -6,6 +6,20 @@ export const login = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await AuthService.login("John", "email@example.com");
+
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.status);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.logout();
+
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.status);
@@ -23,7 +37,16 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.status = "succeeded";
       })
+      .addCase(logout.fulfilled, (state) => {
+        state.isAuthenticated = false;
+        state.status = "succeeded";
+      })
       .addCase(login.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.status = "failed";
+        state.error = action.payload as any;
+      })
+      .addCase(logout.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.status = "failed";
         state.error = action.payload as any;
