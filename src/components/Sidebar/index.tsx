@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import RangeSlider from "react-range-slider-input";
-import "react-range-slider-input/dist/style.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
