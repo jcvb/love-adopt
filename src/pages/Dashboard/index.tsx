@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchBreeds,
-  fetchDataDogs,
-} from "../../store/dogsSlice";
+import { fetchBreeds, fetchDataDogs } from "../../store/dogsSlice";
 
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
@@ -14,6 +11,12 @@ import { AppDispatch } from "../../store/store";
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const selectedBreeds = useSelector((state: any) => state.dogs.selectedBreeds);
+  const orderBy = useSelector((state: any) => state.dogs.orderBy);
+  const filterBy = useSelector((state: any) => state.dogs.filterBy);
+  const itemsPeerPage = useSelector((state: any) => state.dogs.itemsPeerPage);
+  const page = useSelector((state: any) => state.dogs.page);
+  const ageMin = useSelector((state: any) => state.dogs.ageMin);
+  const ageMax = useSelector((state: any) => state.dogs.ageMax);
 
   useEffect(() => {
     dispatch(fetchBreeds());
@@ -21,9 +24,28 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedBreeds.length) {
-      dispatch(fetchDataDogs(selectedBreeds));
+      dispatch(
+        fetchDataDogs({
+          selectedBreeds: selectedBreeds,
+          orderBy: orderBy,
+          filterBy: filterBy,
+          itemsPeerPage,
+          page,
+          ageMin,
+          ageMax,
+        })
+      );
     }
-  }, [dispatch, selectedBreeds]);
+  }, [
+    ageMax,
+    ageMin,
+    dispatch,
+    filterBy,
+    itemsPeerPage,
+    orderBy,
+    page,
+    selectedBreeds,
+  ]);
   return (
     <>
       <MainLayout>
@@ -32,7 +54,7 @@ const Dashboard = () => {
           <div className="h-[calc(100vh-64px)] sticky top-0 w-64 border-r-1 p-5">
             <Sidebar />
           </div>
-          <div className=" h-[calc(100vh-64px)] overflow-auto p-5">
+          <div className="w-full">
             <DogList />
           </div>
         </div>

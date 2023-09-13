@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { API_URL } from "../utils/constants";
 import { Breed } from "../types/Dogs";
+import qs from "qs";
 
 const breeds = () => {
   return axios
@@ -20,12 +21,47 @@ const breeds = () => {
     });
 };
 
-const getDogsData = async (query: Array<string>) => {
+const getDogsData = async (
+  query: Array<string>,
+  orderBy: string = "asc",
+  filterBy: string = "breed",
+  size: number = 25,
+  page: number = 1,
+  ageMin: number = 0,
+  ageMax: number = 14,
+) => {
+  let querySorted = [...query].sort((a: string, b: string) =>
+    a.localeCompare(b)
+  );
+  let total: number = 0;
+  let next: string = "";
+
   try {
+    let params = {};
+    if (querySorted[0] !== "" && querySorted.length > 0) {
+      params = {
+        breeds: querySorted,
+        sort: filterBy + ":" + orderBy,
+        size,
+        from: page * size,
+        ageMin,
+        ageMax
+      };
+    } else {
+      params = {
+        sort: filterBy + ":" + orderBy,
+        size,
+        from: page * size,
+        ageMin,
+        ageMax
+      };
+    }
+
     const dogsIds = await axios.get(API_URL + "/dogs/search", {
       withCredentials: true,
-      params: {
-        breeds: query,
+      params,
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: "repeat" });
       },
     });
 
@@ -37,23 +73,19 @@ const getDogsData = async (query: Array<string>) => {
       }
     );
 
-    return dataDogs.data;
+    total = dogsIds.data.total;
+    next = dogsIds.data.next;
+
+    return { data: dataDogs.data, total, next };
   } catch (error) {
     console.error("Error: ", error);
+    return {
+      data: [],
+      total: 0,
+      next: "",
+      errorMessage: "There was an error fetching data",
+    };
   }
-  return axios
-    .get(API_URL + "/dogs/search", {
-      withCredentials: true,
-      params: {
-        breeds: query,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      return error.response?.status;
-    });
 };
 
 const DogsService = {

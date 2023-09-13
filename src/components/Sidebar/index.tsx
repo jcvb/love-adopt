@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
+
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedBreeds } from "../../store/dogsSlice";
+import {
+  setSelectedBreeds,
+  setOrderBy,
+  setFilterBy,
+  setAgeMin,
+  setAgeMax,
+  fetchDataDogs
+} from "../../store/dogsSlice";
 import { Breed } from "../../types/Dogs";
 import { Select, SelectItem, Spacer } from "@nextui-org/react";
+import { AppDispatch } from "../../store/store";
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const breeds = useSelector((state: any) => state.dogs.breeds);
   const selectedBreeds = useSelector((state: any) => state.dogs.selectedBreeds);
+  const orderBy = useSelector((state: any) => state.dogs.orderBy);
+  const filterBy = useSelector((state: any) => state.dogs.filterBy);
+  const itemsPeerPage = useSelector((state: any) => state.dogs.itemsPeerPage);
+  const page = useSelector((state: any) => state.dogs.page);
+  const ageMin = useSelector((state: any) => state.dogs.ageMin);
+  const ageMax = useSelector((state: any) => state.dogs.ageMax);
 
-  const handleSelectionChange = (e: any) => {
+  const handleBreedChange = (e: any) => {
     const newSelectedBreeds: Array<Breed> = [];
     const newSelectedItem: Array<any> = e.target.value.split(",");
     newSelectedItem.forEach((breed: any) => {
@@ -21,15 +38,90 @@ const Sidebar = () => {
     dispatch(setSelectedBreeds(newSelectedBreeds));
   };
 
+  const handleOrderByChange = (e: any) => {
+    dispatch(setOrderBy(e.target.value));
+  };
+
+  const handleFilterByChange = (e: any) => {
+    dispatch(setFilterBy(e.target.value));
+  };
+
+  const handleRange = (e: any) => {
+    dispatch(setAgeMin(e[0]));
+    dispatch(setAgeMax(e[1]));
+  }
+
+  useEffect(() => {
+    console.log(ageMax);
+    dispatch(
+      fetchDataDogs({
+        selectedBreeds: selectedBreeds,
+        orderBy: orderBy,
+        filterBy: filterBy,
+        itemsPeerPage,
+        page,
+        ageMin,
+        ageMax,
+      })
+    );
+  }, [
+    ageMax,
+    ageMin,
+    dispatch,
+    filterBy,
+    itemsPeerPage,
+    orderBy,
+    page,
+    selectedBreeds,
+  ]);
+
   return (
     <>
       <div className="flex flex-col w-56">
         <span className="font-bold text-lg">Filters</span>
         <Spacer y={3} />
-        <h3 className=" text-center uppercase font-bold">Breeds</h3>
+        <Select
+          label="Order by"
+          className="max-w-xs"
+          defaultSelectedKeys={["asc"]}
+          onChange={handleOrderByChange}
+        >
+          <SelectItem key="asc" value="asc">
+            Asc
+          </SelectItem>
+          <SelectItem key="desc" value="desc">
+            Desc
+          </SelectItem>
+        </Select>
+        <Spacer y={3} />
+        <Select
+          label="Filter by"
+          className="max-w-xs"
+          defaultSelectedKeys={["breed"]}
+          onChange={handleFilterByChange}
+        >
+          <SelectItem key="breed" value="breed">
+            Breed
+          </SelectItem>
+          <SelectItem key="name" value="name">
+            Name
+          </SelectItem>
+          <SelectItem key="age" value="age">
+            Age
+          </SelectItem>
+        </Select>
+        
+          <Spacer y={5} />
+          <div className=" text-sm pl-1">
+            From {ageMin} to {ageMax} age
+          </div>
+          <Spacer y={3} />
+          <RangeSlider min={0} max={14} value={[ageMin, ageMax]} onInput={handleRange} />
+        
+        <Spacer y={8} />
         <Select
           label="Select the breeds"
-          onChange={handleSelectionChange}
+          onChange={handleBreedChange}
           placeholder="Any"
           selectionMode="multiple"
           className="max-w-xs"
@@ -45,17 +137,21 @@ const Sidebar = () => {
           ))}
         </Select>
 
-        <h3 className="mt-3 text-sm font-bold">Breeds Selected</h3>
-        <div>
-          {selectedBreeds.map((breed: any) => (
-            <span
-              className="inline-block bg-la-primary text-white py-1 px-2 mx-1 my-1 text-xs rounded"
-              key={breed.name}
-            >
-              {breed.name}
-            </span>
-          ))}
-        </div>
+        {selectedBreeds[0] !== "" && selectedBreeds.length > 0 && (
+          <>
+            <h3 className="mt-3 text-sm font-bold">Breeds Selected</h3>
+            <div className="h-32 overflow-x-auto">
+              {selectedBreeds.map((breed: any) => (
+                <span
+                  className="inline-block bg-la-primary text-white py-1 px-2 mx-1 my-1 text-xs rounded"
+                  key={breed.name}
+                >
+                  {breed.name}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

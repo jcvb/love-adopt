@@ -8,9 +8,31 @@ export const fetchBreeds = createAsyncThunk("dogs/fetchBreeds", async () => {
 
 export const fetchDataDogs = createAsyncThunk(
   "dogs/fetchDataDogs",
-  async (selectedBreeds: any) => {
+  async ({
+    selectedBreeds,
+    orderBy,
+    filterBy,
+    itemsPeerPage,
+    page,
+    ageMin,
+    ageMax
+  }: {
+    selectedBreeds: any;
+    orderBy: any;
+    filterBy: any;
+    itemsPeerPage: any;
+    page: any;
+    ageMin: any;
+    ageMax: any;
+  }) => {
     const response = await DogsService.getDogsData(
-      selectedBreeds.map((breed: any) => breed.name)
+      selectedBreeds.map((breed: any) => breed.name),
+      orderBy,
+      filterBy,
+      itemsPeerPage,
+      page,
+      ageMin,
+      ageMax
     );
     return response;
   }
@@ -18,13 +40,47 @@ export const fetchDataDogs = createAsyncThunk(
 
 const dogsSlice = createSlice({
   name: "dogs",
-  initialState: { breeds: [], selectedBreeds: [], dataDogs: [], status: "idle", error: null },
+  initialState: {
+    breeds: [],
+    selectedBreeds: [],
+    dataDogs: [],
+    total: 0,
+    page: 1,
+    ageMin: 0,
+    ageMax: 14,
+    itemsPeerPage: 9,
+    orderBy: "asc",
+    filterBy: "breed",
+    status: "idle",
+    error: null,
+  },
   reducers: {
     setBreeds: (state, action) => {
       state.breeds = action.payload;
     },
     setSelectedBreeds: (state, action) => {
       state.selectedBreeds = action.payload;
+    },
+    setOrderBy: (state, action) => {
+      state.orderBy = action.payload;
+    },
+    setFilterBy: (state, action) => {
+      state.filterBy = action.payload;
+    },
+    setTotal: (state, action) => {
+      state.total = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setItemsPeerPage: (state, action) => {
+      state.itemsPeerPage = action.payload;
+    },
+    setAgeMin: (state, action) => {
+      state.ageMin = action.payload;
+    },
+    setAgeMax: (state, action) => {
+      state.ageMax = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -34,7 +90,9 @@ const dogsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchDataDogs.fulfilled, (state, action) => {
-        state.dataDogs = action.payload;
+        console.log("Se realiza");
+        state.dataDogs = action.payload.data;
+        state.total = action.payload.total;
         state.status = "succeeded";
       })
       .addCase(fetchBreeds.rejected, (state, action) => {
@@ -49,4 +107,14 @@ const dogsSlice = createSlice({
 });
 
 export default dogsSlice.reducer;
-export const { setSelectedBreeds, setBreeds } = dogsSlice.actions;
+export const {
+  setSelectedBreeds,
+  setBreeds,
+  setOrderBy,
+  setFilterBy,
+  setTotal,
+  setItemsPeerPage,
+  setPage,
+  setAgeMin,
+  setAgeMax
+} = dogsSlice.actions;
