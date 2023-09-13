@@ -22,8 +22,22 @@ const login = (name: string, email: string) => {
     });
 };
 
+const logout = () => {
+  return axios
+    .post(API_URL + "/auth/logout", {
+      withCredentials: true,
+    })
+    .then((response) => {
+      if (response.data === "OK") return 200;
+    })
+    .catch((error) => {
+      return error.response?.status;
+    });
+};
+
 const AuthService = {
   login,
+  logout,
 };
 
 export default AuthService;
