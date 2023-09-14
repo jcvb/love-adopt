@@ -14,7 +14,8 @@ const AuthForm = () => {
     (state: any) => state.auth.isAuthenticated
   );
 
-  const handleLogin = () => {
+  const handleLogin = (event: any) => {
+    event.preventDefault();
     dispatch(login()).catch((error: any) => {
       console.error("Error:", error);
     });
@@ -31,22 +32,27 @@ const AuthForm = () => {
       <Spacer y={5} />
       <h1 className="w-full text-center font-bold text-xl">Log in</h1>
       <Spacer y={6} />
-      <div className="flex w-full">
-        <Input type="text" label="Name" />
-      </div>
-      <Spacer y={5} />
-      <div className="flex w-full">
-        <Input type="email" label="Email" />
-      </div>
-      <Spacer y={5} />
-      <Button
-        className="bg-la-primary w-full uppercase text-white hover:bg-la-primary-dark"
-        onClick={() => {
-          handleLogin();
-        }}
+      <form
+        onSubmit={
+          handleLogin
+        }
       >
-        Log in
-      </Button>
+        <div className="flex w-full">
+          <Input type="text" label="Name" isRequired />
+        </div>
+        <Spacer y={5} />
+        <div className="flex w-full">
+          <Input type="email" label="Email" isRequired />
+        </div>
+        <Spacer y={5} />
+        <Button
+          type="submit"
+          className="bg-la-primary w-full uppercase text-white hover:bg-la-primary-dark"
+        >
+          Log in
+        </Button>
+      </form>
+
       <Spacer y={5} />
     </>
   );

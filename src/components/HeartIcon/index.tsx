@@ -4,7 +4,7 @@ export const HeartIcon = ({
   size = 24,
   width,
   height,
-  strokeWidth = 1.5,
+  strokeWidth = 2,
   fill = "none",
   ...props
 }: {

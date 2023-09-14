@@ -6,6 +6,14 @@ export const fetchBreeds = createAsyncThunk("dogs/fetchBreeds", async () => {
   return response;
 });
 
+export const getBestMatch = createAsyncThunk(
+  "dogs/getBestMatch",
+  async ({ favorites }: { favorites: any; }) => {
+    const response = await DogsService.getBestMatch(favorites);
+    return response;
+  }
+);
+
 export const fetchDataDogs = createAsyncThunk(
   "dogs/fetchDataDogs",
   async ({
@@ -44,9 +52,11 @@ const dogsSlice = createSlice({
     breeds: [],
     selectedBreeds: [],
     dataDogs: [],
+    favorites: [],
     total: 0,
     page: 1,
     ageMin: 0,
+    bestMatch: {},
     ageMax: 14,
     zipCode: " ",
     itemsPeerPage: 9,
@@ -83,6 +93,9 @@ const dogsSlice = createSlice({
     setAgeMax: (state, action) => {
       state.ageMax = action.payload;
     },
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -95,6 +108,10 @@ const dogsSlice = createSlice({
         state.total = action.payload.total;
         state.status = "succeeded";
       })
+      .addCase(getBestMatch.fulfilled, (state, action: any) => {
+        state.bestMatch = action.payload;
+        state.status = "succeeded";
+      })
       .addCase(fetchBreeds.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message as any;
@@ -102,6 +119,10 @@ const dogsSlice = createSlice({
       .addCase(fetchDataDogs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message as any;
+      })
+      .addCase(getBestMatch.rejected, (state: any, action: any) => {
+        state.status = "failed";
+        state.error = action.error.message ;
       });
   },
 });
@@ -116,5 +137,6 @@ export const {
   setItemsPeerPage,
   setPage,
   setAgeMin,
-  setAgeMax
+  setAgeMax,
+  setFavorites,
 } = dogsSlice.actions;

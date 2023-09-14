@@ -9,12 +9,24 @@ import {
   setAgeMin,
   setAgeMax,
   fetchDataDogs,
+  getBestMatch,
 } from "../../store/dogsSlice";
 import { Breed } from "../../types/Dogs";
 import {
+  Button,
+  Card,
+  CardFooter,
+  CardHeader,
+  Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Select,
   SelectItem,
   Spacer,
+  useDisclosure,
 } from "@nextui-org/react";
 import { AppDispatch } from "../../store/store";
 
@@ -28,6 +40,9 @@ const Sidebar = () => {
   const page = useSelector((state: any) => state.dogs.page);
   const ageMin = useSelector((state: any) => state.dogs.ageMin);
   const ageMax = useSelector((state: any) => state.dogs.ageMax);
+  const favorites = useSelector((state: any) => state.dogs.favorites);
+  const bestMatch = useSelector((state: any) => state.dogs.bestMatch);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleBreedChange = (e: any) => {
     const newSelectedBreeds: Array<Breed> = [];
@@ -54,6 +69,11 @@ const Sidebar = () => {
     dispatch(setAgeMax(e[1]));
   };
 
+  const handleModal = () => {
+    onOpen();
+    dispatch(getBestMatch({ favorites }));
+  };
+
   useEffect(() => {
     dispatch(
       fetchDataDogs({
@@ -63,7 +83,7 @@ const Sidebar = () => {
         itemsPeerPage,
         page,
         ageMin,
-        ageMax
+        ageMax,
       })
     );
   }, [
@@ -77,12 +97,22 @@ const Sidebar = () => {
     selectedBreeds,
   ]);
 
-
   return (
     <>
       <div className="flex flex-col w-56">
         <span className="font-bold text-lg">Filters</span>
         <Spacer y={3} />
+        {favorites.length > 0 && (
+          <>
+            <span className="font-bold">{favorites.length} favorites dogs</span>
+            <Spacer y={2} />
+            <Button onPress={handleModal} color="primary" variant="shadow">
+              Find your best match
+            </Button>
+            <Spacer y={6} />
+          </>
+        )}
+
         <Select
           label="Order by"
           className="max-w-xs"
@@ -159,6 +189,63 @@ const Sidebar = () => {
             </div>
           </>
         )}
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  {" "}
+                  Congratulations! 🐶🎉
+                </ModalHeader>
+                <ModalBody>
+                  <Card
+                    isFooterBlurred
+                    className="w-full h-[400px] col-span-6 sm:col-span-5"
+                  >
+                    <CardHeader className="absolute z-10 top-1 flex-col items-start drop-shadow">
+                      <div className="flex justify-between w-full">
+                        <span className="text-white uppercase font-bold drop-shadow-lg">
+                          {bestMatch.breed}
+                        </span>
+                      </div>
+                      <h4 className=" text-white uppercase font-extrabold text-2xl drop-shadow-lg">
+                        {bestMatch.name}
+                      </h4>
+                    </CardHeader>
+                    <Image
+                      removeWrapper
+                      alt="Card example background"
+                      className="z-0 w-full h-full  -translate-y-6 object-cover"
+                      src={bestMatch.img}
+                    />
+                    <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
+                      <div className="flex justify-center items-center">
+                        <div className="text-black font-bold">
+                          Age {bestMatch.age}
+                        </div>
+                        <div className="text-black text-tiny ml-6 font-semibold">
+                          Zip Code: {bestMatch.zip_code}
+                        </div>
+                      </div>
+                      <Button
+                        className=" bg-la-secondary uppercase font-bold text-white"
+                        radius="full"
+                        size="sm"
+                      >
+                        Adopt it
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onPress={onClose}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
     </>
   );

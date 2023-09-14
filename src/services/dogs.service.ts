@@ -21,6 +21,17 @@ const breeds = () => {
     });
 };
 
+const getBestMatch = async (favorites: any) => {
+  const dataDogs: any = await axios.post(API_URL + "/dogs/match", favorites, {
+    withCredentials: true,
+  });
+
+  const dataDog:any = await axios.post(API_URL + "/dogs", [dataDogs.data.match], {
+    withCredentials: true,
+  });
+  return dataDog.data[0];
+};
+
 const getDogsData = async (
   query: Array<string>,
   orderBy: string = "asc",
@@ -45,7 +56,7 @@ const getDogsData = async (
         size,
         from: page * size,
         ageMin,
-        ageMax
+        ageMax,
       };
     } else {
       params = {
@@ -53,7 +64,7 @@ const getDogsData = async (
         size,
         from: page * size,
         ageMin,
-        ageMax
+        ageMax,
       };
     }
 
@@ -91,6 +102,7 @@ const getDogsData = async (
 const DogsService = {
   breeds,
   getDogsData,
+  getBestMatch,
 };
 
 export default DogsService;
