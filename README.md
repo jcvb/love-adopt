@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Love Adopt: A Dog Adoption Platform 🐾
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This React application helps users find their next furry friend. With comprehensive search and filter functionalities, you can find dogs based on breeds, age, and more. The user-friendly interface also allows marking favorites with a simple heart icon.
 
-## Available Scripts
+![Screenshot of the application](https://i.ibb.co/2qdJFz1/Screenshot-2023-09-13-at-10-23-47-p-m.png)
 
-In the project directory, you can run:
+## Features
 
-### `yarn start`
+- **List All Dogs**: View a comprehensive list of available dogs for adoption.
+- **Search and Filter**: Customize your search based on breeds, age, and other attributes.
+- **Favorite Dogs**: Mark your favorite dogs and view them later.
+- **Responsive Design**: Ensuring a seamless experience on all devices.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Prerequisites
 
-### `yarn test`
+Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Installation
 
-### `yarn build`
+1. Clone the repo
+```sh
+git clone https://github.com/jcvb/love-adopt.git
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+cd love-adopt
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm start
+```
+## Technology Stack
 
-### `yarn eject`
+- **Frontend**: React, Redux for state management, and [NextUI](https://nextui.org/) for UI components.
+- **Backend**: Consumes an external API for fetching dog data.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

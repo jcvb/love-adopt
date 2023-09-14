@@ -91,11 +91,11 @@ const DogList = () => {
 
   return (
     <>
-      <div className="sticky top-0 w-full flex items-center justify-between border-b-1 p-2 mb-2">
+      <div className="sticky top-0 w-full flex flex-col md:flex-row items-center justify-between border-b-1 p-2 mb-2">
         <span className="font-bold">{total} Dogs</span>
-        <div className="flex items-center">
-          <div className="flex items-center mr-5">
-            <span className="mr-2">Dogs peer page:</span>
+        <div className="flex flex-col md:flex-row items-center">
+          <div className="flex flex-col md:flex-row items-center mr-5">
+            <span className="mr-2 hidden md:inline-block">Dogs peer page:</span>
             <Dropdown>
               <DropdownTrigger>
                 <Button variant="bordered" className="capitalize">
@@ -120,20 +120,21 @@ const DogList = () => {
           </div>
 
           <Pagination
+            size="sm"
+            isCompact
             onChange={handlePagination}
-            showControls
             total={Math.ceil(total / itemsPeerPage)}
             initialPage={1}
           />
         </div>
       </div>
-      <div className=" h-[calc(100vh-150px)] overflow-auto p-5">
-        <div className="grid grid-cols-3 gap-3">
+      <div className="h-[calc(100vh-200px)] md:h-[calc(100vh-150px)] overflow-auto p-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {dataDogs.map((dog: any) => (
             <div key={dog.id}>
               <Card
                 isFooterBlurred
-                className="w-full h-[400px] col-span-6 sm:col-span-5"
+                className="w-full md:h-[400px] col-span-6 sm:col-span-5"
               >
                 <CardHeader className="absolute z-10 top-1 flex-col items-start drop-shadow">
                   <div className="flex justify-between w-full">

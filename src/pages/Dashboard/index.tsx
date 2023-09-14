@@ -43,10 +43,10 @@ const Dashboard = () => {
       <MainLayout>
         <Header />
         <div className="flex w-full md:max-w-screen-xl mx-auto bg-white">
-          <div className="h-[calc(100vh-64px)] sticky top-0 w-64 border-r-1 p-5">
+          <div className="h-[calc(100vh-64px)] sticky top-0 w-36 md:w-64 border-r-1 p-2 md:p-5">
             <Sidebar />
           </div>
-          <div className="w-full">
+          <div className="w-[calc(100vw-144px)]  md:w-full">
             <DogList />
           </div>
         </div>

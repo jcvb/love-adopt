@@ -32,7 +32,6 @@ const logout = () => {
       }
     )
     .then((response) => {
-      console.log(response);
       if (response.data === "OK") return 200;
     })
     .catch((error) => {

@@ -99,17 +99,19 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="flex flex-col w-56">
+      <div className="flex flex-col w-28 md:w-56">
         <span className="font-bold text-lg">Filters</span>
         <Spacer y={3} />
         {favorites.length > 0 && (
           <>
-            <span className="font-bold">{favorites.length} favorites dogs</span>
-            <Spacer y={2} />
+            <span className="font-bold text-tiny md:text-base">
+              {favorites.length} favorites dogs
+            </span>
+            <Spacer y={3} />
             <Button onPress={handleModal} color="primary" variant="shadow">
-              Find your best match
+              <span className="sm:hidden md:block">Match</span>
             </Button>
-            <Spacer y={6} />
+            <Spacer y={5} />
           </>
         )}
 
