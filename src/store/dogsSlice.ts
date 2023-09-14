@@ -15,7 +15,7 @@ export const fetchDataDogs = createAsyncThunk(
     itemsPeerPage,
     page,
     ageMin,
-    ageMax
+    ageMax,
   }: {
     selectedBreeds: any;
     orderBy: any;
@@ -48,6 +48,7 @@ const dogsSlice = createSlice({
     page: 1,
     ageMin: 0,
     ageMax: 14,
+    zipCode: " ",
     itemsPeerPage: 9,
     orderBy: "asc",
     filterBy: "breed",

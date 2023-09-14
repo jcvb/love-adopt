@@ -11,10 +11,12 @@ import {
   fetchDataDogs,
 } from "../../store/dogsSlice";
 import { Breed } from "../../types/Dogs";
-import { Input, Select, SelectItem, Spacer } from "@nextui-org/react";
+import {
+  Select,
+  SelectItem,
+  Spacer,
+} from "@nextui-org/react";
 import { AppDispatch } from "../../store/store";
-
-import AbstractService from "../../services/abstract.service";
 
 const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -61,7 +63,7 @@ const Sidebar = () => {
         itemsPeerPage,
         page,
         ageMin,
-        ageMax,
+        ageMax
       })
     );
   }, [
@@ -75,11 +77,6 @@ const Sidebar = () => {
     selectedBreeds,
   ]);
 
-  useEffect(() => {
-    AbstractService.getZipCode().then((response) => {
-      console.log("response", response);
-    });
-  }, []);
 
   return (
     <>
@@ -128,9 +125,6 @@ const Sidebar = () => {
           value={[ageMin, ageMax]}
           onInput={handleRange}
         />
-
-        <Spacer y={8} />
-        <Input type="text" label="Zip Code" placeholder="Enter your zip code" />
         <Spacer y={5} />
         <Select
           label="Select the breeds"

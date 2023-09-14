@@ -59,7 +59,7 @@ const DogList = () => {
         itemsPeerPage,
         page,
         ageMin,
-        ageMax,
+        ageMax
       })
     );
   }, [

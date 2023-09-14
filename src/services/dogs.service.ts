@@ -28,7 +28,7 @@ const getDogsData = async (
   size: number = 25,
   page: number = 1,
   ageMin: number = 0,
-  ageMax: number = 14,
+  ageMax: number = 14
 ) => {
   let querySorted = [...query].sort((a: string, b: string) =>
     a.localeCompare(b)

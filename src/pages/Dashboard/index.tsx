@@ -17,6 +17,7 @@ const Dashboard = () => {
   const page = useSelector((state: any) => state.dogs.page);
   const ageMin = useSelector((state: any) => state.dogs.ageMin);
   const ageMax = useSelector((state: any) => state.dogs.ageMax);
+  const zipCode = useSelector((state: any) => state.dogs.zipCode);
 
   useEffect(() => {
     dispatch(fetchBreeds());
@@ -32,20 +33,11 @@ const Dashboard = () => {
           itemsPeerPage,
           page,
           ageMin,
-          ageMax,
+          ageMax
         })
       );
     }
-  }, [
-    ageMax,
-    ageMin,
-    dispatch,
-    filterBy,
-    itemsPeerPage,
-    orderBy,
-    page,
-    selectedBreeds,
-  ]);
+  }, [ageMax, ageMin, dispatch, filterBy, itemsPeerPage, orderBy, page, selectedBreeds, zipCode]);
   return (
     <>
       <MainLayout>
