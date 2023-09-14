@@ -6,6 +6,10 @@ This React application helps users find their next furry friend. With comprehens
 
 ## Features
 
+## Mockup on Figma
+
+[Figma file](https://www.figma.com/file/WKqGczeTDvmEBbsEayIBuM/LoveAdopt?type=design&node-id=0%3A1&mode=design&t=Ct5QkVHof6FeUR4J-1)
+
 - **List All Dogs**: View a comprehensive list of available dogs for adoption.
 - **Search and Filter**: Customize your search based on breeds, age, and other attributes.
 - **Favorite Dogs**: Mark your favorite dogs and view them later.
